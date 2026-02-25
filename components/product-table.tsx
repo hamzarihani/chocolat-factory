@@ -14,10 +14,12 @@ import {
   TableRow,
 } from "@/components/ui/table"
 import { Badge } from "@/components/ui/badge"
+import { useLocale } from "@/lib/locale-context"
 
 export function ProductTable({ products }: { products: Product[] }) {
   const [formOpen, setFormOpen] = useState(false)
   const [editingProduct, setEditingProduct] = useState<Product | null>(null)
+  const { t } = useLocale()
 
   const handleEdit = (product: Product) => {
     setEditingProduct(product)
@@ -33,24 +35,24 @@ export function ProductTable({ products }: { products: Product[] }) {
     <>
       <div className="mb-6 flex items-center justify-between">
         <div>
-          <h2 className="text-2xl font-semibold text-foreground">Products</h2>
+          <h2 className="text-2xl font-semibold text-foreground">{t("admin.products")}</h2>
           <p className="text-sm text-muted-foreground font-serif">
-            {products.length} product{products.length !== 1 && "s"} in catalog
+            {products.length} {t("admin.products").toLowerCase()}
           </p>
         </div>
-        <Button onClick={handleCreate} className="cursor-pointer">Add Product</Button>
+        <Button onClick={handleCreate} className="cursor-pointer">{t("admin.add")}</Button>
       </div>
 
       <div className="overflow-hidden rounded-lg border border-border bg-card">
         <Table>
           <TableHeader>
             <TableRow className="bg-muted/50 hover:bg-muted/50">
-              <TableHead className="w-16">Image</TableHead>
-              <TableHead>Name</TableHead>
-              <TableHead>Category</TableHead>
-              <TableHead className="text-right">Price</TableHead>
-              <TableHead className="text-center">Featured</TableHead>
-              <TableHead className="text-right">Actions</TableHead>
+              <TableHead className="w-16">{t("admin.image")}</TableHead>
+              <TableHead>{t("admin.name")}</TableHead>
+              <TableHead>{t("admin.category")}</TableHead>
+              <TableHead className="text-right">{t("admin.price")}</TableHead>
+              <TableHead className="text-center">{t("admin.featured")}</TableHead>
+              <TableHead className="text-right">{t("admin.actions")}</TableHead>
             </TableRow>
           </TableHeader>
           <TableBody>
@@ -89,13 +91,13 @@ export function ProductTable({ products }: { products: Product[] }) {
                   </Badge>
                 </TableCell>
                 <TableCell className="text-right font-medium">
-                  {Number(product.price).toFixed(2)} TND
+                  {Number(product.price).toFixed(2)}€
                 </TableCell>
                 <TableCell className="text-center">
                   {product.featured ? (
-                    <Badge className="bg-accent text-accent-foreground">Yes</Badge>
+                    <Badge className="bg-accent text-accent-foreground">{t("admin.featured")}</Badge>
                   ) : (
-                    <span className="text-xs text-muted-foreground">No</span>
+                    <span className="text-xs text-muted-foreground">--</span>
                   )}
                 </TableCell>
                 <TableCell className="text-right">
@@ -106,17 +108,18 @@ export function ProductTable({ products }: { products: Product[] }) {
                       className="cursor-pointer"
                       onClick={() => handleEdit(product)}
                     >
-                      Edit
+                      {t("admin.edit")}
                     </Button>
                     <DeleteButton productId={product.id} />
                   </div>
+
                 </TableCell>
               </TableRow>
             ))}
             {products.length === 0 && (
               <TableRow>
                 <TableCell colSpan={6} className="py-12 text-center text-muted-foreground">
-                  No products yet. Click &quot;Add Product&quot; to create one.
+                  Empty
                 </TableCell>
               </TableRow>
             )}
@@ -132,3 +135,4 @@ export function ProductTable({ products }: { products: Product[] }) {
     </>
   )
 }
+

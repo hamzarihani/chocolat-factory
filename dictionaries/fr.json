@@ -1,0 +1,66 @@
+{
+  "navigation": {
+    "products": "Collection",
+    "story": "Notre Histoire",
+    "contact": "Contact",
+    "admin": "Admin",
+    "dashboard": "Tableau de bord",
+    "logout": "Déconnexion"
+  },
+  "hero": {
+    "est": "Depuis 1897",
+    "title": "Maison du Chocolat",
+    "description": "Où la tradition rencontre l'art. Chaque pièce est un chef-d'œuvre, fabriqué à la main à partir du meilleur cacao au monde.",
+    "cta": "Explorer notre Collection"
+  },
+  "story": {
+    "est": "Depuis 1897",
+    "title": "Notre Histoire",
+    "p1": "Depuis plus d'un siècle, notre famille se consacre à l'art du chocolat. Ce qui a commencé comme un petit atelier au cœur de Paris est devenu une maison de renommée, mais notre philosophie reste inchangée.",
+    "p2": "Nous sélectionnons les meilleures fèves de cacao provenant de plantations d'origine unique en Équateur, à Madagascar et au Venezuela. Chaque lot est torréfié, broyé et tempéré à la main, préservant le terroir unique de chaque récolte.",
+    "stats": {
+      "years": "Années de savoir-faire",
+      "masters": "Maîtres chocolatiers",
+      "estates": "Plantations d'origine",
+      "creations": "Créations uniques"
+    }
+  },
+  "collection": {
+    "subtitle": "Nos Créations",
+    "title": "La Collection",
+    "description": "Chaque pièce est un témoignage du dévouement de nos maîtres chocolatiers à la perfection, élaborée à partir de cacao d'origine éthique.",
+    "featured": "En vedette",
+    "noImage": "Aucune image"
+  },
+  "footer": {
+    "description": "Fabriqué avec passion depuis 1897. Chaque pièce raconte une histoire de dévouement, de tradition et des meilleurs ingrédients.",
+    "about": "À propos",
+    "quickLinks": "Liens rapides",
+    "legal": "Mentions légales",
+    "copyright": "© {year} Maison du Chocolat. Tous droits réservés."
+  },
+  "admin": {
+    "products": "Produits",
+    "add": "Ajouter un produit",
+    "edit": "Modifier",
+    "delete": "Supprimer",
+    "image": "Image",
+    "name": "Nom",
+    "category": "Catégorie",
+    "description": "Description",
+    "price": "Prix",
+    "featured": "En vedette",
+    "actions": "Actions",
+    "profile": "Profil",
+    "password": "Mot de passe",
+    "update": "Mettre à jour",
+    "updating": "Mise à jour...",
+    "login_heading": "Connexion Administrateur",
+    "logging_in": "Connexion...",
+    "login": "Se connecter",
+    "clickToUpload": "Cliquez pour télécharger ou glissez-déposez",
+    "confirmDelete": "Êtes-vous sûr de vouloir supprimer ce produit ?",
+    "deleted": "Produit supprimé avec succès"
+  }
+}
+

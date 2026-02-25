@@ -8,15 +8,18 @@ import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
 import { Textarea } from "@/components/ui/textarea"
+import { Switch } from "@/components/ui/switch"
 import {
   Dialog,
   DialogContent,
   DialogHeader,
   DialogTitle,
+  DialogDescription,
 } from "@/components/ui/dialog"
 import { toast } from "sonner"
+import { useLocale } from "@/lib/locale-context"
 
-type ProductFormProps = {
+interface ProductFormProps {
   product?: Product | null
   open: boolean
   onOpenChange: (open: boolean) => void
@@ -28,6 +31,7 @@ export function ProductForm({ product, open, onOpenChange }: ProductFormProps) {
   const [uploading, setUploading] = useState(false)
   const [dragOver, setDragOver] = useState(false)
   const fileInputRef = useRef<HTMLInputElement>(null)
+  const { t } = useLocale()
 
   const currentImage = imageUrl ?? product?.image_url ?? null
 
@@ -90,7 +94,7 @@ export function ProductForm({ product, open, onOpenChange }: ProductFormProps) {
       if (result?.error) {
         toast.error(result.error)
       } else {
-        toast.success(product ? "Product updated" : "Product created")
+        toast.success(product ? t("admin.update") : t("admin.add"))
         setImageUrl(null)
         onOpenChange(false)
       }
@@ -106,34 +110,35 @@ export function ProductForm({ product, open, onOpenChange }: ProductFormProps) {
     <Dialog open={open} onOpenChange={handleOpenChange}>
       <DialogContent className="max-h-[90vh] overflow-y-auto sm:max-w-lg">
         <DialogHeader>
-          <DialogTitle>{product ? "Edit Product" : "New Product"}</DialogTitle>
+          <DialogTitle>{product ? t("admin.edit") : t("admin.add")} {t("admin.products").toLowerCase()}</DialogTitle>
+          <DialogDescription>
+            {product ? "Update existing product" : "Add a new product to your catalog"}
+          </DialogDescription>
         </DialogHeader>
         <form action={handleSubmit} className="flex flex-col gap-4">
           <div className="flex flex-col gap-2">
-            <Label htmlFor="name">Name</Label>
+            <Label htmlFor="name">{t("admin.name")}</Label>
             <Input
               id="name"
               name="name"
               defaultValue={product?.name ?? ""}
               required
-              placeholder="Dark Velvet Truffle"
             />
           </div>
 
           <div className="flex flex-col gap-2">
-            <Label htmlFor="description">Description</Label>
+            <Label htmlFor="description">{t("admin.description")}</Label>
             <Textarea
               id="description"
               name="description"
               defaultValue={product?.description ?? ""}
               rows={3}
-              placeholder="Describe this chocolate creation..."
             />
           </div>
 
           <div className="grid grid-cols-2 gap-4">
             <div className="flex flex-col gap-2">
-              <Label htmlFor="price">Price (TND)</Label>
+              <Label htmlFor="price">{t("admin.price")}</Label>
               <Input
                 id="price"
                 name="price"
@@ -142,23 +147,21 @@ export function ProductForm({ product, open, onOpenChange }: ProductFormProps) {
                 min="0"
                 defaultValue={product?.price ?? ""}
                 required
-                placeholder="12.99"
               />
             </div>
             <div className="flex flex-col gap-2">
-              <Label htmlFor="category">Category</Label>
+              <Label htmlFor="category">{t("admin.category")}</Label>
               <Input
                 id="category"
                 name="category"
                 defaultValue={product?.category ?? ""}
                 required
-                placeholder="Truffles, Bonbons, Bars..."
               />
             </div>
           </div>
 
           <div className="flex flex-col gap-2">
-            <Label>Product Image</Label>
+            <Label>{t("admin.image")}</Label>
             <div
               className={`relative flex flex-col items-center justify-center rounded-lg border-2 border-dashed p-6 transition-colors duration-200 cursor-pointer ${
                 dragOver
@@ -223,7 +226,7 @@ export function ProductForm({ product, open, onOpenChange }: ProductFormProps) {
                     </svg>
                   </div>
                   <p className="text-sm font-medium text-foreground">
-                    {uploading ? "Uploading..." : "Click to upload or drag and drop"}
+                    {uploading ? t("admin.updating") : t("admin.clickToUpload")}
                   </p>
                   <p className="text-xs text-muted-foreground">
                     JPG, PNG, WebP or GIF (max 5MB)
@@ -254,15 +257,13 @@ export function ProductForm({ product, open, onOpenChange }: ProductFormProps) {
           </div>
 
           <div className="flex items-center gap-2">
-            <input
-              type="checkbox"
+            <Switch
               id="featured"
               name="featured"
               defaultChecked={product?.featured ?? false}
-              className="h-4 w-4 rounded border-border accent-accent"
             />
-            <Label htmlFor="featured" className="text-sm font-normal">
-              Featured product
+            <Label htmlFor="featured" className="cursor-pointer">
+              {t("admin.featured")}
             </Label>
           </div>
 
@@ -274,8 +275,8 @@ export function ProductForm({ product, open, onOpenChange }: ProductFormProps) {
             >
               Cancel
             </Button>
-            <Button type="submit" disabled={isPending || uploading}>
-              {isPending ? "Saving..." : product ? "Update" : "Create"}
+            <Button type="submit" disabled={isPending || uploading} className="w-full cursor-pointer disabled:cursor-not-allowed">
+              {isPending ? t("admin.updating") : (product ? t("admin.update") : t("admin.add"))}
             </Button>
           </div>
         </form>
@@ -286,12 +287,13 @@ export function ProductForm({ product, open, onOpenChange }: ProductFormProps) {
 
 export function DeleteButton({ productId }: { productId: number }) {
   const [isPending, startTransition] = useTransition()
+  const { t } = useLocale()
 
   const handleDelete = () => {
-    if (!confirm("Are you sure you want to delete this product?")) return
+    if (!confirm(t("admin.confirmDelete"))) return
     startTransition(async () => {
       await deleteProduct(productId)
-      toast.success("Product deleted")
+      toast.success(t("admin.deleted"))
     })
   }
 
@@ -301,9 +303,9 @@ export function DeleteButton({ productId }: { productId: number }) {
       size="sm"
       onClick={handleDelete}
       disabled={isPending}
-      className="text-destructive cursor-pointer hover:bg-destructive/10 hover:text-destructive"
+      className="cursor-pointer border-destructive/50 text-destructive hover:bg-destructive hover:text-destructive-foreground"
     >
-      {isPending ? "Deleting..." : "Delete"}
+      {isPending ? "..." : t("admin.delete")}
     </Button>
   )
 }

@@ -6,15 +6,17 @@ import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
 import { toast } from "sonner"
+import { useLocale } from "@/lib/locale-context"
 
 export function AdminProfileForm({ 
   initialName, 
-  initialEmail 
+  initialEmail,
 }: { 
   initialName: string
-  initialEmail: string 
+  initialEmail: string
 }) {
   const [loading, setLoading] = useState(false)
+  const { t } = useLocale()
 
   async function handleSubmit(formData: FormData) {
     setLoading(true)
@@ -24,14 +26,14 @@ export function AdminProfileForm({
     if (result?.error) {
       toast.error(result.error)
     } else {
-      toast.success("Profile updated successfully")
+      toast.success(t("admin.update"))
     }
   }
 
   return (
     <form action={handleSubmit} className="space-y-4">
       <div className="space-y-2">
-        <Label htmlFor="name">Name</Label>
+        <Label htmlFor="name">{t("admin.name")}</Label>
         <Input 
           id="name" 
           name="name" 
@@ -52,8 +54,9 @@ export function AdminProfileForm({
         />
       </div>
       <Button type="submit" disabled={loading} className="w-full cursor-pointer disabled:cursor-not-allowed">
-        {loading ? "Updating..." : "Update Profile"}
+        {loading ? t("admin.updating") : t("admin.update")}
       </Button>
     </form>
   )
 }
+

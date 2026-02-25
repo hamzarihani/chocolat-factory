@@ -4,8 +4,11 @@ import Link from "next/link"
 import { usePathname } from "next/navigation"
 import { logoutAction } from "@/app/admin/actions"
 import { Button } from "@/components/ui/button"
+import LocaleSwitcher from "./locale-switcher"
+import { useLocale } from "@/lib/locale-context"
 
 export function AdminHeader({ adminName }: { adminName: string }) {
+  const { t } = useLocale()
   const pathname = usePathname()
   const isProfilePage = pathname === "/admin/profile"
 
@@ -17,10 +20,11 @@ export function AdminHeader({ adminName }: { adminName: string }) {
             Maison du Chocolat
           </Link>
           <span className="text-xs font-medium uppercase tracking-wider text-accent">
-            Admin
+            {t("navigation.admin")}
           </span>
         </div>
         <div className="flex items-center gap-4">
+          <LocaleSwitcher />
           {!isProfilePage ? (
             <Link 
               href="/admin/profile" 
@@ -36,13 +40,13 @@ export function AdminHeader({ adminName }: { adminName: string }) {
           ) : (
             <Link href="/admin/dashboard">
               <Button variant="outline" size="sm" className="cursor-pointer">
-                Dashboard
+                {t("navigation.dashboard")}
               </Button>
             </Link>
           )}
           <form action={logoutAction}>
             <Button variant="outline" size="sm" type="submit" className="cursor-pointer">
-              Sign Out
+              {t("navigation.logout")}
             </Button>
           </form>
         </div>
@@ -50,3 +54,4 @@ export function AdminHeader({ adminName }: { adminName: string }) {
     </header>
   )
 }
+

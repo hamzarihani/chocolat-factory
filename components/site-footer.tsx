@@ -2,34 +2,37 @@
 
 import Link from "next/link"
 import { useScrollAnimation } from "@/hooks/use-scroll-animation"
+import { useLocale } from "@/lib/locale-context"
 
 export function SiteFooter() {
+  const { t } = useLocale()
   const { ref, isVisible } = useScrollAnimation({ threshold: 0.2 })
 
   return (
-    <footer ref={ref} className="border-t border-border bg-card px-4 py-12 md:px-8">
-      <div className="mx-auto flex max-w-7xl flex-col items-center gap-6 text-center">
+    <footer
+      ref={ref}
+      className="bg-primary px-4 py-16 text-primary-foreground md:px-8"
+    >
+      <div className="mx-auto flex max-w-7xl flex-col items-center gap-10">
         <Link
           href="/"
-          className="text-xl font-bold text-foreground transition-all duration-300 hover:scale-105 hover:text-accent"
+          className="text-2xl font-bold tracking-widest uppercase transition-all duration-700"
           style={{
             opacity: isVisible ? 1 : 0,
             transform: isVisible ? "translateY(0)" : "translateY(20px)",
-            transition: "opacity 0.7s ease-out, transform 0.7s ease-out, color 0.3s, scale 0.3s",
           }}
         >
           Maison du Chocolat
         </Link>
         <p
-          className="max-w-md text-sm leading-relaxed text-muted-foreground font-serif"
+          className="max-w-md text-center text-sm leading-relaxed text-muted-foreground font-serif transition-all duration-700"
           style={{
             opacity: isVisible ? 1 : 0,
             transform: isVisible ? "translateY(0)" : "translateY(20px)",
             transition: "opacity 0.7s ease-out 0.15s, transform 0.7s ease-out 0.15s",
           }}
         >
-          Handcrafted with passion since 1897. Every piece tells a story of
-          dedication, tradition, and the finest ingredients.
+          {t("footer.description")}
         </p>
         <div
           className="flex items-center gap-6"
@@ -40,23 +43,23 @@ export function SiteFooter() {
           }}
         >
           <Link href="#collection" className="text-sm text-muted-foreground transition-all duration-300 hover:text-accent hover:tracking-wider">
-            Collection
+            {t("navigation.products")}
           </Link>
           <Link href="#story" className="text-sm text-muted-foreground transition-all duration-300 hover:text-accent hover:tracking-wider">
-            Our Story
+            {t("navigation.story")}
           </Link>
           <Link href="/admin" className="text-sm text-muted-foreground transition-all duration-300 hover:text-accent hover:tracking-wider">
-            Admin
+            {t("navigation.admin")}
           </Link>
         </div>
         <p
-          className="text-xs text-muted-foreground"
+          className="text-xs text-muted-foreground/50 transition-all duration-700"
           style={{
             opacity: isVisible ? 1 : 0,
             transition: "opacity 0.7s ease-out 0.45s",
           }}
         >
-          &copy; {new Date().getFullYear()} Maison du Chocolat. All rights reserved.
+          {t("footer.copyright", { year: new Date().getFullYear() })}
         </p>
       </div>
     </footer>

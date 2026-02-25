@@ -3,8 +3,10 @@
 import Image from "next/image"
 import Link from "next/link"
 import { useEffect, useState } from "react"
+import { useLocale } from "@/lib/locale-context"
 
 export function HeroSection() {
+  const { t } = useLocale()
   const [scrollY, setScrollY] = useState(0)
   const [mounted, setMounted] = useState(false)
 
@@ -38,29 +40,29 @@ export function HeroSection() {
           className="text-sm font-serif tracking-[0.35em] uppercase text-[oklch(0.85_0.08_55)]"
           style={{ opacity: mounted ? 1 : 0, transform: mounted ? "translateY(0)" : "translateY(20px)", transition: "opacity 0.8s ease-out 0.2s, transform 0.8s ease-out 0.2s" }}
         >
-          Est. 1897
+          {t("hero.est")}
         </p>
         <h1
           className="text-5xl font-bold tracking-tight text-balance text-[oklch(0.98_0.005_60)] md:text-7xl lg:text-8xl"
           style={{ opacity: mounted ? 1 : 0, transform: mounted ? "translateY(0)" : "translateY(20px)", transition: "opacity 0.8s ease-out 0.4s, transform 0.8s ease-out 0.4s" }}
         >
-          Maison du Chocolat
+          {t("hero.title")}
         </h1>
         <p
           className="max-w-xl text-lg leading-relaxed text-[oklch(0.85_0.02_60)] font-serif"
           style={{ opacity: mounted ? 1 : 0, transform: mounted ? "translateY(0)" : "translateY(20px)", transition: "opacity 0.8s ease-out 0.6s, transform 0.8s ease-out 0.6s" }}
         >
-          Where tradition meets artistry. Every piece is a masterwork, handcrafted
-          from the world&apos;s finest cacao.
+          {t("hero.description")}
         </p>
         <Link
           href="#collection"
           className="mt-4 inline-flex items-center gap-2 rounded-full bg-accent px-8 py-3 text-sm font-medium text-accent-foreground transition-all duration-300 hover:scale-105 hover:shadow-lg hover:shadow-accent/25"
           style={{ opacity: mounted ? 1 : 0, transform: mounted ? "translateY(0)" : "translateY(20px)", transition: "opacity 0.8s ease-out 0.8s, transform 0.8s ease-out 0.8s, scale 0.3s ease, box-shadow 0.3s ease" }}
         >
-          Explore Our Collection
+          {t("hero.cta")}
         </Link>
       </div>
     </section>
   )
 }
+

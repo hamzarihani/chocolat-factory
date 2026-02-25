@@ -2,6 +2,7 @@
 
 import { useScrollAnimation } from "@/hooks/use-scroll-animation"
 import { useEffect, useState } from "react"
+import { useLocale } from "@/lib/locale-context"
 
 function AnimatedStat({ value, label, delay = 0 }: { value: string; label: string; delay?: number }) {
   const { ref, isVisible } = useScrollAnimation({ threshold: 0.3 })
@@ -45,6 +46,7 @@ function AnimatedStat({ value, label, delay = 0 }: { value: string; label: strin
 }
 
 export function StorySection() {
+  const { t } = useLocale()
   const { ref: textRef, isVisible: textVisible } = useScrollAnimation()
 
   return (
@@ -58,7 +60,7 @@ export function StorySection() {
               transform: textVisible ? "translateX(0)" : "translateX(-30px)",
             }}
           >
-            Since 1897
+            {t("story.est")}
           </p>
           <h2
             className="mt-3 text-4xl font-bold tracking-tight text-primary-foreground md:text-5xl transition-all duration-700"
@@ -68,7 +70,7 @@ export function StorySection() {
               transitionDelay: "150ms",
             }}
           >
-            Our Story
+            {t("story.title")}
           </h2>
           <p
             className="mt-6 text-base leading-relaxed text-primary-foreground/80 font-serif transition-all duration-700"
@@ -78,10 +80,7 @@ export function StorySection() {
               transitionDelay: "300ms",
             }}
           >
-            For over a century, our family has been dedicated to the art of
-            chocolate making. What began as a small atelier in the heart of
-            Paris has grown into a celebrated maison, yet our philosophy
-            remains unchanged.
+            {t("story.p1")}
           </p>
           <p
             className="mt-4 text-base leading-relaxed text-primary-foreground/80 font-serif transition-all duration-700"
@@ -91,19 +90,17 @@ export function StorySection() {
               transitionDelay: "450ms",
             }}
           >
-            We source the finest cacao beans from single-origin estates across
-            Ecuador, Madagascar, and Venezuela. Each batch is roasted,
-            ground, and tempered by hand, preserving the unique terroir of
-            every harvest.
+            {t("story.p2")}
           </p>
         </div>
         <div className="grid grid-cols-2 gap-4">
-          <AnimatedStat value="127" label="Years of Craft" delay={0} />
-          <AnimatedStat value="12" label="Master Chocolatiers" delay={150} />
-          <AnimatedStat value="8" label="Origin Estates" delay={300} />
-          <AnimatedStat value="50+" label="Unique Creations" delay={450} />
+          <AnimatedStat value="127" label={t("story.stats.years")} delay={0} />
+          <AnimatedStat value="12" label={t("story.stats.masters")} delay={150} />
+          <AnimatedStat value="8" label={t("story.stats.estates")} delay={300} />
+          <AnimatedStat value="50+" label={t("story.stats.creations")} delay={450} />
         </div>
       </div>
     </section>
   )
 }
+

@@ -2,6 +2,10 @@ import type { Metadata } from 'next'
 import { Playfair_Display, Lora, Geist_Mono } from 'next/font/google'
 import { Analytics } from '@vercel/analytics/next'
 import { Toaster } from 'sonner'
+import { cookies } from 'next/headers'
+import { getDictionary } from '@/lib/get-dictionary'
+import { LocaleProvider } from '@/lib/locale-context'
+import type { Locale } from '@/i18n.config'
 import './globals.css'
 
 const _playfairDisplay = Playfair_Display({ subsets: ["latin"], weight: ["400", "500", "600", "700", "800"] })
@@ -31,18 +35,27 @@ export const metadata: Metadata = {
   },
 }
 
-export default function RootLayout({
+export default async function RootLayout({
   children,
 }: Readonly<{
   children: React.ReactNode
 }>) {
+  const cookieStore = await cookies()
+  const locale = (cookieStore.get('NEXT_LOCALE')?.value as Locale) || 'fr'
+  const dictionary = await getDictionary(locale)
+  const isRtl = locale === 'ar'
+
   return (
-    <html lang="en">
-      <body className="font-sans antialiased">
-        {children}
+    <html lang={locale} dir={isRtl ? 'rtl' : 'ltr'} suppressHydrationWarning>
+      <body className="font-sans antialiased" suppressHydrationWarning>
+        <LocaleProvider initialLocale={locale} dictionary={dictionary}>
+          {children}
+        </LocaleProvider>
         <Toaster richColors position="top-right" />
         <Analytics />
       </body>
     </html>
   )
 }
+
+
